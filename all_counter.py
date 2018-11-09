@@ -3,13 +3,10 @@
 import numpy as np
 import sys
 import os
-import matplotlib.pyplot as plt
-from sklearn.cluster import AffinityPropagation
 from tqdm import tqdm
 from concurrent.futures import ProcessPoolExecutor, as_completed
 from skimage.feature import peak_local_max
 
-from sklearn import metrics
 import re
 import time
 

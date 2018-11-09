@@ -76,65 +76,12 @@ def fish_count(smap) :
         k.append(scores[:,:,j])
 
     for joint in k:
-        # row = joint.shape[0]
-        # col = joint.shape[1]
-        #
-        # window = int(sys.argv[1])
-        # if window == 1:
-        #     for r in range(row):
-        #         for c in range(window,col):
-        #             if joint[r][c] > joint[r][c-window]:
-        #                 joint[r][c-window] = 0
-        #             elif joint[r][c] < joint[r][c-window]:
-        #                 joint[r][c] = 0
-        #
-        #     for c in range(col):
-        #         for r in range(window,row):
-        #             if joint[r][c] > joint[r-window][c]:
-        #                 joint[r-window][c] = 0
-        #             elif joint[r][c] < joint[r-window][c]:
-        #                 joint[r][c] = 0
-        # else:
-        #     for r in range(row):
-        #         for c in range(window,col):
-        #             max_index = np.argsort(joint[r][c-window:c])[-1]
-        #             for ind in range(c-window,c):
-        #                 if ind != c-window + max_index:
-        #                     joint[r][ind] = 0
-        #
-        #     joint = np.transpose(joint)
-        #
-        #     for r in range(joint.shape[0]):
-        #         for c in range(window,joint.shape[1]):
-        #             max_index = np.argsort(joint[r][c-window:c])[-1]
-        #             for ind in range(c-window,c):
-        #                 if ind == c - window + max_index:
-        #                     continue
-        #                 else:
-        #                     joint[r][ind] = 0
-        #     joint = np.transpose(joint)
         all = np.maximum(joint,all)
 
 
     # all = np.nonzero( all > 0.3)
     points = peak_local_max(all,threshold_rel = 0.5)
     if len(points) != 0:
-        # points = np.array([all[0][0],all[1][0]])
-        #
-        # for i in range(1,all[0].shape[0]):
-        #     if i == 1:
-        #         points = np.append([points],[[all[0][i],all[1][i]]], axis=0)
-        #     else:
-        #         points = np.append(points,[[all[0][i],all[1][i]]], axis=0)
-        #
-        # if len(all[0]) == 1:
-        #     points = points.reshape(1,-1)
-        #
-
-        # af = AffinityPropagation(preference = -2800).fit(points)
-        # cluster_centers_indices = af.cluster_centers_indices_
-        # labels = af.labels_
-
         n_clusters_ = len(points)
 
     else:
@@ -148,8 +95,7 @@ def fish_count(smap) :
 
 
 files = os.listdir("./MC "+ sys.argv[2])
-# for i in files:
-#     if i.startswith("smap"):
+
 
 
 results = parallel_process(files, fish_count)

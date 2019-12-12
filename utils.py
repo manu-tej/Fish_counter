@@ -70,3 +70,32 @@ def beh_count(trial,rcl_remote):
     plt.show()
 
     print("========================================================================")
+
+
+def make_density_map(trial):
+    print(trial)
+
+    coords = list(pd.read_csv(trial+"/coords.xy"))
+    x,y = int(coords[3])-int(coords[2]), int(coords[1])-int(coords[0])
+    print(x,y)
+
+    videos = [f for f in glob(trial+"/*_new.h5", recursive=True)]
+    videos.sort()
+
+    im = np.zeros((x,y))
+
+    for cid,vid in etrialerate(videos):
+        im1 = np.zeros((x,y))
+        f = pd.read_hdf(vid, key='p')
+        f=f[f['count']!=0]
+        print(vid)
+        check_img = (160.0,112.0)
+        for i in tqdm.tqdm(f['boxes']):
+            for point in i:
+                im1[int(point[0]):int(point[2]),int(point[1]):int(point[3])] += 1
+        plt.imsave(trial+"/"+str(cid+1)+".png",im1)
+        im += im1
+        print("=================================================================")
+
+
+    plt.imsave(trial+"/All.png",im)
